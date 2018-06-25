@@ -1,6 +1,7 @@
 #!groovy
 properties([
-    pipelineTriggers([[$class:"GitHubPushTrigger"]])
+    pipelineTriggers([[$class:"GitHubPushTrigger"]]),
+    disableConcurrentBuilds()
 ])
 pipeline {
   agent { label 'docker-slave' }
@@ -25,7 +26,7 @@ pipeline {
       steps {
         slackSend (color: '#ddaa00', message: ":construction_worker: kf-api-release-coordinator GETTING SCRIPTS:")
         sh '''
-        git clone git@github.com:kids-first/kf-api-release-coordinator-config.git
+        git clone -b feature/removed-conditional-on-kidsfirstdrc git@github.com:kids-first/kf-api-release-coordinator-config.git
         '''
       }
     }
