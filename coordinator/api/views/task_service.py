@@ -52,7 +52,7 @@ class TaskServiceViewSet(viewsets.ModelViewSet):
         """
         Trigger tasks to check each task service's health status
         """
-        task_services = TaskService.objects.all()
+        task_services = TaskService.objects.filter(enabled=True).all()
         for service in task_services:
             django_rq.enqueue(health_check, service.kf_id)
 
